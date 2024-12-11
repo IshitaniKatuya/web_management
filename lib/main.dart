@@ -74,19 +74,27 @@ class _UserTableState extends State<UserTable> {
                       ageController.text = user.age.toString();
                       hobbyController.text = user.hobby;
                     });
+                    _showEditDialog(context, index);
                   },
                 )),
               ]);
             }).toList(),
           ),
         ),
-        if (selectedIndex != null) ...[
-          Padding(
-            padding: const EdgeInsets.all(8.0),
+      ],
+    );
+  }
+
+  void _showEditDialog(BuildContext context, int index) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('ユーザー情報編集'),
+          content: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('編集'),
                 TextField(
                   controller: nameController,
                   decoration: InputDecoration(labelText: '名前'),
@@ -100,22 +108,30 @@ class _UserTableState extends State<UserTable> {
                   controller: hobbyController,
                   decoration: InputDecoration(labelText: '趣味'),
                 ),
-                ElevatedButton(
-                  onPressed: () {
-                    setState(() {
-                      users[selectedIndex!].name = nameController.text;
-                      users[selectedIndex!].age = int.parse(ageController.text);
-                      users[selectedIndex!].hobby = hobbyController.text;
-                      selectedIndex = null;
-                    });
-                  },
-                  child: Text('保存'),
-                ),
               ],
             ),
           ),
-        ],
-      ],
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // ダイアログを閉じる
+              },
+              child: Text('キャンセル'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                setState(() {
+                  users[index].name = nameController.text;
+                  users[index].age = int.parse(ageController.text);
+                  users[index].hobby = hobbyController.text;
+                });
+                Navigator.of(context).pop(); // ダイアログを閉じる
+              },
+              child: Text('保存'),
+            ),
+          ],
+        );
+      },
     );
   }
 }
