@@ -1,14 +1,5 @@
 import 'package:flutter/material.dart';
 
-class User {
-  final String id;
-  String name;
-  int age;
-  String hobby;
-
-  User({required this.id, required this.name, required this.age, required this.hobby});
-}
-
 class Word {
   final String id;
   String word;
@@ -57,10 +48,11 @@ class _WordsTableState extends State<WordsTable> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
+    return Center( // 画面の中央に配置
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Container(
+          constraints: BoxConstraints(maxWidth: 800), // 最大幅を設定して大きすぎないように調整
           child: DataTable(
             columns: [
               DataColumn(label: Text('ID')),
@@ -95,7 +87,7 @@ class _WordsTableState extends State<WordsTable> {
             }).toList(),
           ),
         ),
-      ],
+      ),
     );
   }
 
