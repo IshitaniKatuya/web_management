@@ -7,7 +7,13 @@ class Word {
   String pronunciation;
   String phoneticSymbol;
 
-  Word({required this.id, required this.word, required this.japaneseTranslation, required this.pronunciation, required this.phoneticSymbol});
+  Word({
+    required this.id,
+    required this.word,
+    required this.japaneseTranslation,
+    required this.pronunciation,
+    required this.phoneticSymbol,
+  });
 }
 
 void main() {
@@ -35,24 +41,42 @@ class WordsTable extends StatefulWidget {
 
 class _WordsTableState extends State<WordsTable> {
   List<Word> words = [
-    Word(id: '001', word: 'apple', japaneseTranslation: 'りんご', pronunciation: 'ap・ple', phoneticSymbol: 'æpl'),
-    Word(id: '002', word: 'orange', japaneseTranslation: 'オレンジ', pronunciation: 'or・ange', phoneticSymbol: 'ɔːrɪndʒ'),
-    Word(id: '003', word: 'banana', japaneseTranslation: 'バナナ', pronunciation: 'ba・nan・a', phoneticSymbol: 'bənˈænə'),
+    Word(
+        id: '001',
+        word: 'apple',
+        japaneseTranslation: 'りんご',
+        pronunciation: 'ap・ple',
+        phoneticSymbol: 'æpl'),
+    Word(
+        id: '002',
+        word: 'orange',
+        japaneseTranslation: 'オレンジ',
+        pronunciation: 'or・ange',
+        phoneticSymbol: 'ɔːrɪndʒ'),
+    Word(
+        id: '003',
+        word: 'banana',
+        japaneseTranslation: 'バナナ',
+        pronunciation: 'ba・nan・a',
+        phoneticSymbol: 'bənˈænə'),
   ];
 
   final TextEditingController wordController = TextEditingController();
-  final TextEditingController japaneseTranslationController = TextEditingController();
+  final TextEditingController japaneseTranslationController =
+      TextEditingController();
   final TextEditingController pronunciationController = TextEditingController();
-  final TextEditingController phoneticSymbolController = TextEditingController();
+  final TextEditingController phoneticSymbolController =
+      TextEditingController();
   int? selectedIndex;
 
   @override
   Widget build(BuildContext context) {
-    return Center( // 画面の中央に配置
+    return Center(
+      // 画面の中央に配置
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Container(
-          constraints: BoxConstraints(maxWidth: 800), // 最大幅を設定して大きすぎないように調整
+          constraints: BoxConstraints(maxWidth: 1200), // 最大幅を設定して大きすぎないように調整
           child: DataTable(
             columns: [
               DataColumn(label: Text('ID')),
@@ -67,8 +91,22 @@ class _WordsTableState extends State<WordsTable> {
               return DataRow(cells: [
                 DataCell(Text(word.id)),
                 DataCell(Text(word.word)),
-                DataCell(Text(word.japaneseTranslation)),
-                DataCell(Text(word.pronunciation)),
+                DataCell(
+                  // 日本語訳のカラムの幅を広げる
+                  Container(
+                    width: 100, // 幅を設定（適宜調整）
+                    child: Text(
+                      word.japaneseTranslation,
+                      overflow: TextOverflow.ellipsis, // 長すぎるテキストは省略する
+                    ),
+                  ),
+                ),
+                DataCell(
+                  // 日本語訳のカラムの幅を広げる
+                  Container(
+                      width: 100, // 幅を設定（適宜調整）
+                      child: Text(word.pronunciation)),
+                ),
                 DataCell(Text(word.phoneticSymbol)),
                 DataCell(IconButton(
                   icon: Icon(Icons.edit),
@@ -76,7 +114,8 @@ class _WordsTableState extends State<WordsTable> {
                     setState(() {
                       selectedIndex = index;
                       wordController.text = word.word;
-                      japaneseTranslationController.text = word.japaneseTranslation;
+                      japaneseTranslationController.text =
+                          word.japaneseTranslation;
                       pronunciationController.text = word.pronunciation;
                       phoneticSymbolController.text = word.phoneticSymbol;
                     });
@@ -132,7 +171,8 @@ class _WordsTableState extends State<WordsTable> {
               onPressed: () {
                 setState(() {
                   words[index].word = wordController.text;
-                  words[index].japaneseTranslation = japaneseTranslationController.text;
+                  words[index].japaneseTranslation =
+                      japaneseTranslationController.text;
                   words[index].pronunciation = pronunciationController.text;
                   words[index].phoneticSymbol = phoneticSymbolController.text;
                 });
