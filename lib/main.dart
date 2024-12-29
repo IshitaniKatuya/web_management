@@ -1,188 +1,60 @@
 import 'package:flutter/material.dart';
-
-class Word {
-  final String id;
-  String word;
-  String japaneseTranslation;
-  String pronunciation;
-  String phoneticSymbol;
-
-  Word({
-    required this.id,
-    required this.word,
-    required this.japaneseTranslation,
-    required this.pronunciation,
-    required this.phoneticSymbol,
-  });
-}
+import 'package:web_management_pj/pages/words_table.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('単語情報テーブル'),
+      title: '単語管理アプリ',
+      debugShowCheckedModeBanner: false,  // デバッグバナーを非表示
+      theme: ThemeData(
+        useMaterial3: true,
+        scaffoldBackgroundColor: Colors.white,
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.blue,
+          primary: Colors.blue[700]!,
+          surface: Colors.white,
+          background: Colors.white,
+          brightness: Brightness.light,
         ),
-        body: WordsTable(),
+        appBarTheme: AppBarTheme(
+          backgroundColor: Colors.blue[700],
+          foregroundColor: Colors.white,
+          elevation: 0,
+        ),
       ),
+      home: const WordListPage(),
     );
   }
 }
 
-class WordsTable extends StatefulWidget {
-  @override
-  _WordsTableState createState() => _WordsTableState();
-}
-
-class _WordsTableState extends State<WordsTable> {
-  List<Word> words = [
-    Word(
-        id: '001',
-        word: 'apple',
-        japaneseTranslation: 'りんご',
-        pronunciation: 'ap・ple',
-        phoneticSymbol: 'æpl'),
-    Word(
-        id: '002',
-        word: 'orange',
-        japaneseTranslation: 'オレンジ',
-        pronunciation: 'or・ange',
-        phoneticSymbol: 'ɔːrɪndʒ'),
-    Word(
-        id: '003',
-        word: 'banana',
-        japaneseTranslation: 'バナナ',
-        pronunciation: 'ba・nan・a',
-        phoneticSymbol: 'bənˈænə'),
-  ];
-
-  final TextEditingController wordController = TextEditingController();
-  final TextEditingController japaneseTranslationController =
-      TextEditingController();
-  final TextEditingController pronunciationController = TextEditingController();
-  final TextEditingController phoneticSymbolController =
-      TextEditingController();
-  int? selectedIndex;
+class WordListPage extends StatelessWidget {
+  const WordListPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      // 画面の中央に配置
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Container(
-          constraints: BoxConstraints(maxWidth: 1200), // 最大幅を設定して大きすぎないように調整
-          child: DataTable(
-            columns: [
-              DataColumn(label: Text('ID')),
-              DataColumn(label: Text('単語')),
-              DataColumn(label: Text('日本語訳')),
-              DataColumn(label: Text('発音')),
-              DataColumn(label: Text('発音記号')),
-              DataColumn(label: Text('編集')),
-            ],
-            rows: words.map((word) {
-              int index = words.indexOf(word);
-              return DataRow(cells: [
-                DataCell(Text(word.id)),
-                DataCell(Text(word.word)),
-                DataCell(
-                  // 日本語訳のカラムの幅を広げる
-                  Container(
-                    width: 100, // 幅を設定（適宜調整）
-                    child: Text(
-                      word.japaneseTranslation,
-                      overflow: TextOverflow.ellipsis, // 長すぎるテキストは省略する
-                    ),
-                  ),
-                ),
-                DataCell(
-                  // 日本語訳のカラムの幅を広げる
-                  Container(
-                      width: 100, // 幅を設定（適宜調整）
-                      child: Text(word.pronunciation)),
-                ),
-                DataCell(Text(word.phoneticSymbol)),
-                DataCell(IconButton(
-                  icon: Icon(Icons.edit),
-                  onPressed: () {
-                    setState(() {
-                      selectedIndex = index;
-                      wordController.text = word.word;
-                      japaneseTranslationController.text =
-                          word.japaneseTranslation;
-                      pronunciationController.text = word.pronunciation;
-                      phoneticSymbolController.text = word.phoneticSymbol;
-                    });
-                    _showEditDialog(context, index);
-                  },
-                )),
-              ]);
-            }).toList(),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('単語情報テーブル'),
+        actions: [
+          // 必要に応じてアクションボタンを追加
+          IconButton(
+            icon: const Icon(Icons.help_outline),
+            onPressed: () {
+              // ヘルプ機能の実装
+            },
           ),
-        ),
+        ],
       ),
-    );
-  }
-
-  void _showEditDialog(BuildContext context, int index) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('単語情報編集'),
-          content: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                TextField(
-                  controller: wordController,
-                  decoration: InputDecoration(labelText: '単語'),
-                ),
-                TextField(
-                  controller: japaneseTranslationController,
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(labelText: '日本語訳'),
-                ),
-                TextField(
-                  controller: pronunciationController,
-                  decoration: InputDecoration(labelText: '発音'),
-                ),
-                TextField(
-                  controller: phoneticSymbolController,
-                  decoration: InputDecoration(labelText: '発音記号'),
-                ),
-              ],
-            ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop(); // ダイアログを閉じる
-              },
-              child: Text('キャンセル'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                setState(() {
-                  words[index].word = wordController.text;
-                  words[index].japaneseTranslation =
-                      japaneseTranslationController.text;
-                  words[index].pronunciation = pronunciationController.text;
-                  words[index].phoneticSymbol = phoneticSymbolController.text;
-                });
-                Navigator.of(context).pop(); // ダイアログを閉じる
-              },
-              child: Text('保存'),
-            ),
-          ],
-        );
-      },
+      body:  SafeArea(
+        child: WordsTable(),
+      ),
     );
   }
 }

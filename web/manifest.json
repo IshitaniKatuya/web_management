@@ -1,6 +1,6 @@
 {
-    "name": "web_management_pj",
-    "short_name": "web_management_pj",
+    "name": "web_management",
+    "short_name": "web_management",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
