@@ -358,10 +358,10 @@ class _WordsTableState extends State<WordsTable> {
       DataColumn(label: _buildHeaderText('英語の例文')),
       DataColumn(label: _buildHeaderText('例文の訳')),
 
-      DataColumn(label: _buildHeaderText('品詞番号')),
+      // DataColumn(label: _buildHeaderText('品詞番号')),
       //オマケの1　不規則動詞の変化形
-      DataColumn(label: _buildHeaderText('過去形)')),
-      DataColumn(label: _buildHeaderText('過去完了形')),
+      // DataColumn(label: _buildHeaderText('過去形)')),
+      // DataColumn(label: _buildHeaderText('過去完了形')),
       //発音にかかわる部分
       DataColumn(label: _buildHeaderText('原型発音')),
       DataColumn(label: _buildHeaderText('過去形発音')),
@@ -376,7 +376,7 @@ class _WordsTableState extends State<WordsTable> {
       //おまけの6　複数の意味
       DataColumn(label: _buildHeaderText('多義語訳1')),
       DataColumn(label: _buildHeaderText('多義語訳2')),
-      //オマケの7気になる単語　
+      //オマケの7気になる単語
       DataColumn(label: _buildHeaderText('黙字の位置')),
 
 
@@ -405,6 +405,11 @@ class _WordsTableState extends State<WordsTable> {
       DataColumn(label: _buildHeaderText('京大 中級')),
       DataColumn(label: _buildHeaderText('京大 上級A')),
       DataColumn(label: _buildHeaderText('京大 上級B')),
+      DataColumn(label: _buildHeaderText('TOEIC基礎')),
+      DataColumn(label: _buildHeaderText('TOEIC初級')),
+      DataColumn(label: _buildHeaderText('TOEIC中級')),
+      DataColumn(label: _buildHeaderText('TOEIC上級A')),
+      DataColumn(label: _buildHeaderText('TOEIC上級B')),
       DataColumn(label: _buildHeaderText('英検5級')),
       DataColumn(label: _buildHeaderText('英検4級')),
       DataColumn(label: _buildHeaderText('英検3級')),
@@ -412,10 +417,6 @@ class _WordsTableState extends State<WordsTable> {
       DataColumn(label: _buildHeaderText('英検2級')),
       DataColumn(label: _buildHeaderText('英検準1級')),
       DataColumn(label: _buildHeaderText('英検1級')),
-      DataColumn(label: _buildHeaderText('TOEIC基礎')),
-      DataColumn(label: _buildHeaderText('TOEIC初級')),
-      DataColumn(label: _buildHeaderText('TOEIC中級')),
-      DataColumn(label: _buildHeaderText('TOEIC上級A')),
       //オマケ1の1不規則動詞
       DataColumn(label: _buildHeaderText('中学不規則')),
       DataColumn(label: _buildHeaderText('高校不規則')),
@@ -453,15 +454,15 @@ class _WordsTableState extends State<WordsTable> {
       DataColumn(label: _buildHeaderText('家や施設')),
       DataColumn(label: _buildHeaderText('その他')),
       //無料の単語は　0/有料の単語は　1
-      DataColumn(label: _buildHeaderText('無料・有料の識別列')),
+      // DataColumn(label: _buildHeaderText('無料・有料の識別列')),
       //オマケ3　中学の動詞・センター・TOEFLなど
       DataColumn(label: _buildHeaderText('中学の動詞')),
       DataColumn(label: _buildHeaderText('中学の形容詞')),
       DataColumn(label: _buildHeaderText('中学の副詞')),
       DataColumn(label: _buildHeaderText('センターに出たA')),
       DataColumn(label: _buildHeaderText('センターに出たB')),
-      DataColumn(label: _buildHeaderText('TOEFLに出たA')),
-      DataColumn(label: _buildHeaderText('TOEFLに出たB')),
+      // DataColumn(label: _buildHeaderText('TOEFLに出たA')),
+      // DataColumn(label: _buildHeaderText('TOEFLに出たB')),
 
     ];
   }
@@ -484,26 +485,24 @@ class _WordsTableState extends State<WordsTable> {
           DataCell(Text(word.exampleSentenceEnglish)),
           DataCell(Text(word.exampleSentenceJapanese)),
           DataCell(Text(word.)),
-          DataCell(Text(word.)),
-          DataCell(Text(word.)),
-          DataCell(Text(word.)),
-          DataCell(Text(word.)),
-          DataCell(Text(word.)),
-          DataCell(Text(word.)),
-          DataCell(Text(word.)),
-          DataCell(Text(word.)),
-          DataCell(Text(word.)),
-          DataCell(Text(word.)),
-          DataCell(Text(word.)),
-          DataCell(Text(word.)),
-          DataCell(Text(word.)),
-          DataCell(Text(word.)),
-          DataCell(Text(word.)),
-          DataCell(Text(word.)),
-          DataCell(Text(word.)),
-          DataCell(Text(word.)),
-          DataCell(Text(word.)),
-          
+          DataCell(Text(word.conjugation1)),
+          DataCell(Text(word.conjugation2)),
+          //オマケの1　不規則動詞の変化形 ないかも
+          DataCell(Text(word.prototypePronunciation)),
+          DataCell(Text(word.conjugation1Pronunciation)),
+          DataCell(Text(word.conjugation2Pronunciation)),
+          DataCell(Text(word.withSetEnglish)),
+          DataCell(Text(word.withSetJapanese1)),
+          DataCell(Text(word.withSetJapanese2)),
+          DataCell(Text(word.pronunciationKana)),
+          DataCell(Text(word.pronunciationSymbol)),
+          DataCell(Text(word.polysemy1)),
+          DataCell(Text(word.polysemy2)),
+          DataCell(_buildCheckbox(word.silent, (value) {
+            setState(() {
+              words[index].silent = value!;
+            });
+          })),
           DataCell(_buildCheckbox(word.primarySchool1, (value) {
             setState(() {
               words[index].primarySchool1 = value!;
@@ -627,6 +626,219 @@ class _WordsTableState extends State<WordsTable> {
           DataCell(_buildCheckbox(word.toeic5, (value) {
             setState(() {
               words[index].toeic5 = value!;
+            });
+          })),
+
+
+          //追加
+          DataCell(_buildCheckbox(word.eiken1, (value) {
+            setState(() {
+              words[index].eiken1 = value!;
+            });
+          })),
+          DataCell(_buildCheckbox(word.eiken2, (value) {
+            setState(() {
+              words[index].eiken2 = value!;
+            });
+          })),
+          DataCell(_buildCheckbox(word.eiken3, (value) {
+            setState(() {
+              words[index].eiken3 = value!;
+            });
+          })),
+          DataCell(_buildCheckbox(word.eiken4, (value) {
+            setState(() {
+              words[index].eiken4 = value!;
+            });
+          })),
+          DataCell(_buildCheckbox(word.eiken5, (value) {
+            setState(() {
+              words[index].eiken5 = value!;
+            });
+          })),
+          DataCell(_buildCheckbox(word.eiken6, (value) {
+            setState(() {
+              words[index].eiken6 = value!;
+            });
+          })),
+          DataCell(_buildCheckbox(word.eiken7, (value) {
+            setState(() {
+              words[index].eiken7 = value!;
+            });
+          })),
+          DataCell(_buildCheckbox(word.irregularVerb1, (value) {
+            setState(() {
+              words[index].irregularVerb1 = value!;
+            });
+          })),
+          DataCell(_buildCheckbox(word.irregularVerb2, (value) {
+            setState(() {
+              words[index].irregularVerb2 = value!;
+            });
+          })),
+          DataCell(_buildCheckbox(word.irregularVerb3, (value) {
+            setState(() {
+              words[index].irregularVerb3 = value!;
+            });
+          })),
+          DataCell(_buildCheckbox(word.idioms1, (value) {
+            setState(() {
+              words[index].idioms1 = value!;
+            });
+          })),
+          DataCell(_buildCheckbox(word.idioms2, (value) {
+            setState(() {
+              words[index].idioms2 = value!;
+            });
+          })),
+          DataCell(_buildCheckbox(word.idioms3, (value) {
+            setState(() {
+              words[index].idioms3 = value!;
+            });
+          })),
+          DataCell(_buildCheckbox(word.withSet1, (value) {
+            setState(() {
+              words[index].withSet1 = value!;
+            });
+          })),
+          DataCell(_buildCheckbox(word.withSet2, (value) {
+            setState(() {
+              words[index].withSet2 = value!;
+            });
+          })),
+          DataCell(_buildCheckbox(word.withSet3, (value) {
+            setState(() {
+              words[index].withSet3 = value!;
+            });
+          })),
+          DataCell(_buildCheckbox(word.easyToMistake1, (value) {
+            setState(() {
+              words[index].easyToMistake1 = value!;
+            });
+          })),
+          DataCell(_buildCheckbox(word.easyToMistake2, (value) {
+            setState(() {
+              words[index].easyToMistake2 = value!;
+            });
+          })),
+          DataCell(_buildCheckbox(word.easyToMistake3, (value) {
+            setState(() {
+              words[index].easyToMistake3 = value!;
+            });
+          })),
+          DataCell(_buildCheckbox(word.pronunciationAttention1, (value) {
+            setState(() {
+              words[index].pronunciationAttention1 = value!;
+            });
+          })),
+          DataCell(_buildCheckbox(word.pronunciationAttention2, (value) {
+            setState(() {
+              words[index].pronunciationAttention2 = value!;
+            });
+          })),
+          DataCell(_buildCheckbox(word.pronunciationAttention3, (value) {
+            setState(() {
+              words[index].pronunciationAttention3 = value!;
+            });
+          })),
+          DataCell(_buildCheckbox(word.polysemy1Flag, (value) {
+            setState(() {
+              words[index].polysemy1Flag = value!;
+            });
+          })),
+          DataCell(_buildCheckbox(word.polysemy2Flag, (value) {
+            setState(() {
+              words[index].polysemy2Flag = value!;
+            });
+          })),
+          DataCell(_buildCheckbox(word.polysemy3Flag, (value) {
+            setState(() {
+              words[index].polysemy3Flag = value!;
+            });
+          })),
+          DataCell(_buildCheckbox(word.concern1, (value) {
+            setState(() {
+              words[index].concern1 = value!;
+            });
+          })),
+          DataCell(_buildCheckbox(word.concern2, (value) {
+            setState(() {
+              words[index].concern2 = value!;
+            });
+          })),
+          DataCell(_buildCheckbox(word.concern3, (value) {
+            setState(() {
+              words[index].concern3 = value!;
+            });
+          })),
+          DataCell(_buildCheckbox(word.animal, (value) {
+            setState(() {
+              words[index].animal = value!;
+            });
+          })),
+          DataCell(_buildCheckbox(word.plant, (value) {
+            setState(() {
+              words[index].plant = value!;
+            });
+          })),
+          DataCell(_buildCheckbox(word.bodyToFace, (value) {
+            setState(() {
+              words[index].bodyToFace = value!;
+            });
+          })),
+          DataCell(_buildCheckbox(word.food, (value) {
+            setState(() {
+              words[index].food = value!;
+            });
+          })),
+          DataCell(_buildCheckbox(word.dailyLife, (value) {
+            setState(() {
+              words[index].dailyLife = value!;
+            });
+          })),
+          DataCell(_buildCheckbox(word.housesAndFacilities, (value) {
+            setState(() {
+              words[index].housesAndFacilities = value!;
+            });
+          })),
+          DataCell(_buildCheckbox(word.other, (value) {
+            setState(() {
+              words[index].other = value!;
+            });
+          })),
+          DataCell(_buildCheckbox(word.juniorHighSchoolVerb, (value) {
+            setState(() {
+              words[index].juniorHighSchoolVerb = value!;
+            });
+          })),
+          DataCell(_buildCheckbox(word.juniorHighSchoolAdjectives, (value) {
+            setState(() {
+              words[index].juniorHighSchoolAdjectives = value!;
+            });
+          })),
+          DataCell(_buildCheckbox(word.juniorHighSchoolAdverb, (value) {
+            setState(() {
+              words[index].juniorHighSchoolAdverb = value!;
+            });
+          })),
+          DataCell(_buildCheckbox(word.highSchoolVerb, (value) {
+            setState(() {
+              words[index].highSchoolVerb = value!;
+            });
+          })),
+          DataCell(_buildCheckbox(word.highSchoolAdjectives, (value) {
+            setState(() {
+              words[index].highSchoolAdjectives = value!;
+            });
+          })),
+          DataCell(_buildCheckbox(word.highSchoolAdverb, (value) {
+            setState(() {
+              words[index].highSchoolAdverb = value!;
+            });
+          })),
+          DataCell(_buildCheckbox(word.highSchoolNoun, (value) {
+            setState(() {
+              words[index].highSchoolNoun = value!;
             });
           })),
           
