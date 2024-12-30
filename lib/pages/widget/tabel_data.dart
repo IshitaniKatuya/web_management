@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 import 'package:web_management_pj/model/word.dart';
 
 import '../words_view_model.dart';
@@ -27,7 +28,7 @@ class TableData {
     '発音記号',
     '多義語訳1',
     '多義語訳2',
-    '黙字の位置',
+    '黙字あり',
     '小学校推奨',
     '中学 初級',
     '中学 中級',
@@ -103,6 +104,7 @@ class TableData {
     'オマケ3 TOEFLに出たB',
   ];
   final WidgetRef ref;
+  final FlutterTts _flutterTts = FlutterTts();
 
   TableData(this.ref);
 
@@ -146,8 +148,9 @@ class TableData {
                 ),
                 IconButton(
                   icon: const Icon(Icons.volume_down_sharp),
-                  onPressed: () {
-                    // 削除機能の実装
+                  onPressed: () async{
+                    await _flutterTts.setLanguage("en-US");
+                    _flutterTts.speak(data.english);
                   },
                 ),
               ],
@@ -160,6 +163,7 @@ class TableData {
           DataCell(Text(data.japanese2)),
           DataCell(Text(data.exampleSentenceEnglish)),
           DataCell(Text(data.exampleSentenceJapanese)),
+          DataCell(Text(data.partOfSpeechNumber.toString())),
           DataCell(Text(data.conjugation1)),
           DataCell(Text(data.conjugation2)),
           DataCell(Text(data.prototypePronunciation)),
@@ -175,7 +179,6 @@ class TableData {
           DataCell(_buildCheckbox(data.silent, (value) {
             ref.read(wordsViewModelProvider.notifier).updateWord(data.copyWith(silent: value!));
           })),
-          DataCell(Text(data.partOfSpeechNumber.toString())),
           DataCell(_buildCheckbox(data.primarySchool1, (value) {
             ref.read(wordsViewModelProvider.notifier).updateWord(data.copyWith(primarySchool1: value!));
           })),
@@ -445,8 +448,6 @@ class TableData {
     final polysemy2Controller = TextEditingController(text: word.polysemy2);
     final partOfSpeechNumberController = TextEditingController(text: word.partOfSpeechNumber.toString());
 
-    bool silentValue = word.silent;
-
     showDialog(
       context: context,
       builder: (context) {
@@ -626,20 +627,6 @@ class TableData {
                           keyboardType: TextInputType.number,
                         ),
                         const SizedBox(height: 16),
-                        Card(
-                          elevation: 0,
-                          color: Colors.grey[100],
-                          child: StatefulBuilder(
-                            builder: (context, setState) {
-                              return CheckboxListTile(
-                                title: const Text('黙字'),
-                                value: silentValue,
-                                onChanged: (value) => setState(() => silentValue = value!),
-                                contentPadding: const EdgeInsets.symmetric(horizontal: 16),
-                              );
-                            },
-                          ),
-                        ),
                       ],
                     ),
                   ),
@@ -681,7 +668,6 @@ class TableData {
                           polysemy1: polysemy1Controller.text,
                           polysemy2: polysemy2Controller.text,
                           partOfSpeechNumber: int.tryParse(partOfSpeechNumberController.text) ?? word.partOfSpeechNumber,
-                          silent: silentValue,
                         );
 
                         ref.read(wordsViewModelProvider.notifier).updateWord(updatedWord);
