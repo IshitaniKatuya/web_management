@@ -353,6 +353,33 @@ class _WordsTableState extends State<WordsTable> {
       DataColumn(label: _buildHeaderText('日本語訳1')),
       DataColumn(label: _buildHeaderText('日本語訳2')),
       // 以降にエクセルの列名に対応するDataColumnを追加　TODO
+
+      //オマケの2　熟語　の例文と訳
+      DataColumn(label: _buildHeaderText('英語の例文')),
+      DataColumn(label: _buildHeaderText('例文の訳')),
+
+      DataColumn(label: _buildHeaderText('品詞番号')),
+      //オマケの1　不規則動詞の変化形
+      DataColumn(label: _buildHeaderText('過去形)')),
+      DataColumn(label: _buildHeaderText('過去完了形')),
+      //発音にかかわる部分
+      DataColumn(label: _buildHeaderText('原型発音')),
+      DataColumn(label: _buildHeaderText('過去形発音')),
+      DataColumn(label: _buildHeaderText('過去完了形発音')),
+      //オマケの3　セットで覚える英単語
+      DataColumn(label: _buildHeaderText('セットの単語')),
+      DataColumn(label: _buildHeaderText('セットの訳1')),
+      DataColumn(label: _buildHeaderText('セットの訳2')),
+      //オマケの5　発音注意
+      DataColumn(label: _buildHeaderText('発音のカタカナ表記')),
+      DataColumn(label: _buildHeaderText('発音記号')),
+      //おまけの6　複数の意味
+      DataColumn(label: _buildHeaderText('多義語訳1')),
+      DataColumn(label: _buildHeaderText('多義語訳2')),
+      //オマケの7気になる単語　
+      DataColumn(label: _buildHeaderText('黙字の位置')),
+
+
       DataColumn(label: _buildHeaderText('小学校推奨')),
       DataColumn(label: _buildHeaderText('中学 初級')),
       DataColumn(label: _buildHeaderText('中学 中級')),
@@ -378,6 +405,63 @@ class _WordsTableState extends State<WordsTable> {
       DataColumn(label: _buildHeaderText('京大 中級')),
       DataColumn(label: _buildHeaderText('京大 上級A')),
       DataColumn(label: _buildHeaderText('京大 上級B')),
+      DataColumn(label: _buildHeaderText('英検5級')),
+      DataColumn(label: _buildHeaderText('英検4級')),
+      DataColumn(label: _buildHeaderText('英検3級')),
+      DataColumn(label: _buildHeaderText('英検準2級')),
+      DataColumn(label: _buildHeaderText('英検2級')),
+      DataColumn(label: _buildHeaderText('英検準1級')),
+      DataColumn(label: _buildHeaderText('英検1級')),
+      DataColumn(label: _buildHeaderText('TOEIC基礎')),
+      DataColumn(label: _buildHeaderText('TOEIC初級')),
+      DataColumn(label: _buildHeaderText('TOEIC中級')),
+      DataColumn(label: _buildHeaderText('TOEIC上級A')),
+      //オマケ1の1不規則動詞
+      DataColumn(label: _buildHeaderText('中学不規則')),
+      DataColumn(label: _buildHeaderText('高校不規則')),
+      DataColumn(label: _buildHeaderText('上級不規則')),
+      //オマケ1の2熟語
+      DataColumn(label: _buildHeaderText('中学熟語')),
+      DataColumn(label: _buildHeaderText('高校A熟語')),
+      DataColumn(label: _buildHeaderText('高校B熟語')),
+      //オマケ1の3セットで覚える
+      DataColumn(label: _buildHeaderText('反意語')),
+      DataColumn(label: _buildHeaderText('同義語')),
+      DataColumn(label: _buildHeaderText('セットで')),
+      //オマケ1の4間違いやすい
+      DataColumn(label: _buildHeaderText('同音異義語')),
+      DataColumn(label: _buildHeaderText('RとL')),
+      DataColumn(label: _buildHeaderText('まぎらわしい')),
+      //オマケ1の5発音注意
+      DataColumn(label: _buildHeaderText('国や都市')),
+      DataColumn(label: _buildHeaderText('カタカナ語')),
+      DataColumn(label: _buildHeaderText('全般')),
+      //オマケ1の6
+      DataColumn(label: _buildHeaderText('多義語')),
+      DataColumn(label: _buildHeaderText('名詞で動詞')),
+      DataColumn(label: _buildHeaderText('形容詞で動詞')),
+      //オマケ1の7気になる単語
+      DataColumn(label: _buildHeaderText('複数形')),
+      DataColumn(label: _buildHeaderText('黙字')),
+      DataColumn(label: _buildHeaderText('数えられない')),
+      //オマケ2　色々な名詞
+      DataColumn(label: _buildHeaderText('動物')),
+      DataColumn(label: _buildHeaderText('植物')),
+      DataColumn(label: _buildHeaderText('体や顔')),
+      DataColumn(label: _buildHeaderText('食べ物')),
+      DataColumn(label: _buildHeaderText('身の回り品')),
+      DataColumn(label: _buildHeaderText('家や施設')),
+      DataColumn(label: _buildHeaderText('その他')),
+      //無料の単語は　0/有料の単語は　1
+      DataColumn(label: _buildHeaderText('無料・有料の識別列')),
+      //オマケ3　中学の動詞・センター・TOEFLなど
+      DataColumn(label: _buildHeaderText('中学の動詞')),
+      DataColumn(label: _buildHeaderText('中学の形容詞')),
+      DataColumn(label: _buildHeaderText('中学の副詞')),
+      DataColumn(label: _buildHeaderText('センターに出たA')),
+      DataColumn(label: _buildHeaderText('センターに出たB')),
+      DataColumn(label: _buildHeaderText('TOEFLに出たA')),
+      DataColumn(label: _buildHeaderText('TOEFLに出たB')),
 
     ];
   }
@@ -394,6 +478,32 @@ class _WordsTableState extends State<WordsTable> {
           DataCell(Text(word.english)),
           DataCell(Text(word.japanese1)),
           DataCell(Text(word.japanese2)),
+
+
+          //追加
+          DataCell(Text(word.exampleSentenceEnglish)),
+          DataCell(Text(word.exampleSentenceJapanese)),
+          DataCell(Text(word.)),
+          DataCell(Text(word.)),
+          DataCell(Text(word.)),
+          DataCell(Text(word.)),
+          DataCell(Text(word.)),
+          DataCell(Text(word.)),
+          DataCell(Text(word.)),
+          DataCell(Text(word.)),
+          DataCell(Text(word.)),
+          DataCell(Text(word.)),
+          DataCell(Text(word.)),
+          DataCell(Text(word.)),
+          DataCell(Text(word.)),
+          DataCell(Text(word.)),
+          DataCell(Text(word.)),
+          DataCell(Text(word.)),
+          DataCell(Text(word.)),
+          DataCell(Text(word.)),
+          DataCell(Text(word.)),
+          DataCell(Text(word.)),
+          
           DataCell(_buildCheckbox(word.primarySchool1, (value) {
             setState(() {
               words[index].primarySchool1 = value!;
@@ -569,6 +679,7 @@ class _WordsTableState extends State<WordsTable> {
           title: Text('単語情報の編集'),
           content: Text('編集ダイアログの内容'),
           actions: [
+
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
