@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:web_management_pj/pages/words_table.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    const ProviderScope(
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -12,7 +17,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: '単語管理アプリ',
-      debugShowCheckedModeBanner: false,  // デバッグバナーを非表示
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         useMaterial3: true,
         scaffoldBackgroundColor: Colors.white,
@@ -34,25 +39,52 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class WordListPage extends StatelessWidget {
+// ヘルプ機能の状態管理用プロバイダー
+final helpVisibilityProvider = StateProvider<bool>((ref) => false);
+
+class WordListPage extends ConsumerWidget {
   const WordListPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final showHelp = ref.watch(helpVisibilityProvider);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('単語情報テーブル'),
         actions: [
-          // 必要に応じてアクションボタンを追加
           IconButton(
             icon: const Icon(Icons.help_outline),
             onPressed: () {
-              // ヘルプ機能の実装
+              ref.read(helpVisibilityProvider.notifier).state = !showHelp;
+              if (showHelp) {
+                // ヘルプ表示のロジック
+                showDialog(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                    title: const Text('ヘルプ'),
+                    content: const SingleChildScrollView(
+                      child: Text(
+                          '単語情報テーブルの使い方：\n\n'
+                              '• 各行は1つの単語の情報を表しています\n'
+                              '• チェックボックスで各項目を設定できます\n'
+                              '• 編集アイコンで単語の情報を編集できます'
+                      ),
+                    ),
+                    actions: [
+                      TextButton(
+                        onPressed: () => Navigator.of(context).pop(),
+                        child: const Text('閉じる'),
+                      ),
+                    ],
+                  ),
+                );
+              }
             },
           ),
         ],
       ),
-      body:  SafeArea(
+      body: SafeArea(
         child: WordsTable(),
       ),
     );
