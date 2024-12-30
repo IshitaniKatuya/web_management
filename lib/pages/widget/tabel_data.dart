@@ -135,6 +135,7 @@ class TableData {
                   icon: const Icon(Icons.edit),
                   onPressed: () {
                     // 編集機能の実装
+                    _showEditDialog(context, data);
                   },
                 ),
                 IconButton(
@@ -411,30 +412,311 @@ class TableData {
     );
   }
 
-  void _showEditDialog(BuildContext context, int index) {
+  InputDecoration _buildInputDecoration(String label) {
+    return InputDecoration(
+      labelText: label,
+      border: const OutlineInputBorder(),
+      filled: true,
+      fillColor: Colors.white,
+      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+    );
+  }
+
+  void _showEditDialog(BuildContext context, Word word) {
+    final screenSize = MediaQuery.of(context).size;
+
+    // テキストコントローラーの初期化
+    final englishController = TextEditingController(text: word.english);
+    final japanese1Controller = TextEditingController(text: word.japanese1);
+    final japanese2Controller = TextEditingController(text: word.japanese2);
+    final exampleSentenceEnglishController = TextEditingController(text: word.exampleSentenceEnglish);
+    final exampleSentenceJapaneseController = TextEditingController(text: word.exampleSentenceJapanese);
+    final conjugation1Controller = TextEditingController(text: word.conjugation1);
+    final conjugation2Controller = TextEditingController(text: word.conjugation2);
+    final prototypePronunciationController = TextEditingController(text: word.prototypePronunciation);
+    final conjugation1PronunciationController = TextEditingController(text: word.conjugation1Pronunciation);
+    final conjugation2PronunciationController = TextEditingController(text: word.conjugation2Pronunciation);
+    final withSetEnglishController = TextEditingController(text: word.withSetEnglish);
+    final withSetJapanese1Controller = TextEditingController(text: word.withSetJapanese1);
+    final withSetJapanese2Controller = TextEditingController(text: word.withSetJapanese2);
+    final pronunciationKanaController = TextEditingController(text: word.pronunciationKana);
+    final pronunciationSymbolController = TextEditingController(text: word.pronunciationSymbol);
+    final polysemy1Controller = TextEditingController(text: word.polysemy1);
+    final polysemy2Controller = TextEditingController(text: word.polysemy2);
+    final partOfSpeechNumberController = TextEditingController(text: word.partOfSpeechNumber.toString());
+
+    bool silentValue = word.silent;
+
     showDialog(
       context: context,
       builder: (context) {
-        return AlertDialog(
-          title: Text('単語情報の編集'),
-          content: Text('編集ダイアログの内容'),
-          actions: [
+        return Dialog(
+          backgroundColor: Colors.white,
+          child: Container(
+            width: screenSize.width * 0.75,
+            height: screenSize.height * 0.75,
+            padding: const EdgeInsets.all(24),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // ヘッダー部分
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      '単語情報の編集',
+                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.close),
+                      onPressed: () => Navigator.of(context).pop(),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 16),
+                const Divider(),
+                const SizedBox(height: 16),
 
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text('キャンセル'),
+                // フォーム部分
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        TextFormField(
+                          controller: englishController,
+                          decoration: _buildInputDecoration('英単語'),
+                        ),
+                        const SizedBox(height: 16),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: TextFormField(
+                                controller: japanese1Controller,
+                                decoration: _buildInputDecoration('日本語訳1'),
+                              ),
+                            ),
+                            const SizedBox(width: 16),
+                            Expanded(
+                              child: TextFormField(
+                                controller: japanese2Controller,
+                                decoration: _buildInputDecoration('日本語訳2'),
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 16),
+                        TextFormField(
+                          controller: exampleSentenceEnglishController,
+                          decoration: _buildInputDecoration('英語の例文'),
+                          maxLines: 2,
+                        ),
+                        const SizedBox(height: 16),
+                        TextFormField(
+                          controller: exampleSentenceJapaneseController,
+                          decoration: _buildInputDecoration('例文の訳'),
+                          maxLines: 2,
+                        ),
+                        const SizedBox(height: 16),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: TextFormField(
+                                controller: conjugation1Controller,
+                                decoration: _buildInputDecoration('過去形'),
+                              ),
+                            ),
+                            const SizedBox(width: 16),
+                            Expanded(
+                              child: TextFormField(
+                                controller: conjugation2Controller,
+                                decoration: _buildInputDecoration('過去完了形'),
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 16),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: TextFormField(
+                                controller: prototypePronunciationController,
+                                decoration: _buildInputDecoration('原型発音'),
+                              ),
+                            ),
+                            const SizedBox(width: 16),
+                            Expanded(
+                              child: TextFormField(
+                                controller: conjugation1PronunciationController,
+                                decoration: _buildInputDecoration('過去形発音'),
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 16),
+                        TextFormField(
+                          controller: conjugation2PronunciationController,
+                          decoration: _buildInputDecoration('過去完了形発音'),
+                        ),
+                        const SizedBox(height: 16),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: TextFormField(
+                                controller: withSetEnglishController,
+                                decoration: _buildInputDecoration('セットの単語'),
+                              ),
+                            ),
+                            const SizedBox(width: 16),
+                            Expanded(
+                              child: TextFormField(
+                                controller: withSetJapanese1Controller,
+                                decoration: _buildInputDecoration('セットの訳1'),
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 16),
+                        TextFormField(
+                          controller: withSetJapanese2Controller,
+                          decoration: _buildInputDecoration('セットの訳2'),
+                        ),
+                        const SizedBox(height: 16),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: TextFormField(
+                                controller: pronunciationKanaController,
+                                decoration: _buildInputDecoration('発音のカタカナ表記'),
+                              ),
+                            ),
+                            const SizedBox(width: 16),
+                            Expanded(
+                              child: TextFormField(
+                                controller: pronunciationSymbolController,
+                                decoration: _buildInputDecoration('発音記号'),
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 16),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: TextFormField(
+                                controller: polysemy1Controller,
+                                decoration: _buildInputDecoration('多義語訳1'),
+                              ),
+                            ),
+                            const SizedBox(width: 16),
+                            Expanded(
+                              child: TextFormField(
+                                controller: polysemy2Controller,
+                                decoration: _buildInputDecoration('多義語訳2'),
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 16),
+                        TextFormField(
+                          controller: partOfSpeechNumberController,
+                          decoration: _buildInputDecoration('品詞番号'),
+                          keyboardType: TextInputType.number,
+                        ),
+                        const SizedBox(height: 16),
+                        Card(
+                          elevation: 0,
+                          color: Colors.grey[100],
+                          child: StatefulBuilder(
+                            builder: (context, setState) {
+                              return CheckboxListTile(
+                                title: const Text('黙字'),
+                                value: silentValue,
+                                onChanged: (value) => setState(() => silentValue = value!),
+                                contentPadding: const EdgeInsets.symmetric(horizontal: 16),
+                              );
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+
+                // フッター部分
+                const SizedBox(height: 16),
+                const Divider(),
+                const SizedBox(height: 16),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    TextButton(
+                      onPressed: () => Navigator.of(context).pop(),
+                      child: const Text('キャンセル'),
+                    ),
+                    const SizedBox(width: 16),
+                    FilledButton(
+                      style: FilledButton.styleFrom(
+                        backgroundColor: Colors.green,
+                      ),
+                      onPressed: () {
+                        final updatedWord = word.copyWith(
+                          english: englishController.text,
+                          japanese1: japanese1Controller.text,
+                          japanese2: japanese2Controller.text,
+                          exampleSentenceEnglish: exampleSentenceEnglishController.text,
+                          exampleSentenceJapanese: exampleSentenceJapaneseController.text,
+                          conjugation1: conjugation1Controller.text,
+                          conjugation2: conjugation2Controller.text,
+                          prototypePronunciation: prototypePronunciationController.text,
+                          conjugation1Pronunciation: conjugation1PronunciationController.text,
+                          conjugation2Pronunciation: conjugation2PronunciationController.text,
+                          withSetEnglish: withSetEnglishController.text,
+                          withSetJapanese1: withSetJapanese1Controller.text,
+                          withSetJapanese2: withSetJapanese2Controller.text,
+                          pronunciationKana: pronunciationKanaController.text,
+                          pronunciationSymbol: pronunciationSymbolController.text,
+                          polysemy1: polysemy1Controller.text,
+                          polysemy2: polysemy2Controller.text,
+                          partOfSpeechNumber: int.tryParse(partOfSpeechNumberController.text) ?? word.partOfSpeechNumber,
+                          silent: silentValue,
+                        );
+
+                        ref.read(wordsViewModelProvider.notifier).updateWord(updatedWord);
+                        Navigator.of(context).pop();
+                      },
+                      child: const Text('確定'),
+                    ),
+                  ],
+                ),
+              ],
             ),
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text('保存'),
-            ),
-          ],
+          ),
         );
       },
-    );
+    ).whenComplete(() {
+      // コントローラーの破棄
+      englishController.dispose();
+      japanese1Controller.dispose();
+      japanese2Controller.dispose();
+      exampleSentenceEnglishController.dispose();
+      exampleSentenceJapaneseController.dispose();
+      conjugation1Controller.dispose();
+      conjugation2Controller.dispose();
+      prototypePronunciationController.dispose();
+      conjugation1PronunciationController.dispose();
+      conjugation2PronunciationController.dispose();
+      withSetEnglishController.dispose();
+      withSetJapanese1Controller.dispose();
+      withSetJapanese2Controller.dispose();
+      pronunciationKanaController.dispose();
+      pronunciationSymbolController.dispose();
+      polysemy1Controller.dispose();
+      polysemy2Controller.dispose();
+      partOfSpeechNumberController.dispose();
+    });
   }
+
 }
